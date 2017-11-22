@@ -60,7 +60,7 @@ clearInterval(interval);}
 					<li><a href="/survey_pinjam"><i class="fa fa-fw fa-pencil"></i><span>Data Survey</span></a></li>
 					<li><a href="/transaksi_pinjam"><i class="fa fa-fw fa-list-alt"></i><span>Proses Hutang</span></a></li>
 					<li><a href="/utang_pinjam"><i class="fa fa-fw fa-list-alt"></i><span>Data Peminjam</span></a></li>
-					<li><a href="{{ url('/logout')}}"><i class="fa fa-fw fa-power-off"></i><span>Logout</span></a></li>
+					<li><a href="/logout"><i class="fa fa-fw fa-power-off"></i><span>Logout</span></a></li>
 					<!-- <li><a href="/kriteria_tafsir"><i class="fa fa-fw fa-pencil"></i><span>Tabel Kriteria</span></a></li>
 					<li><a href="/subkriteria_tafsir"><i class="fa fa-fw fa-list-alt"></i><span>Tabel Sub-Kriteria</span></a></li> -->
 				</ul>

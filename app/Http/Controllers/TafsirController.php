@@ -72,13 +72,13 @@ class TafsirController extends Controller
 	}
 
 	public function tafsir(){
-		$data['customer'] = DB::select('select * from customer');
-		$data['penghasilan'] = DB::select('select * from k_penghasilan');
-		$data['kondisiusaha'] = DB::select('select * from k_kondisiusaha');
-		$data['kemampuanmelunasihutang'] =DB::select('select * from k_melunasihutang');
-		$data['aset'] = DB::select('select * from k_aset');
-		$data['tanggunganhidup'] = DB::select('select * from k_tanggunganhidup');
-		$data['kepemilikanrumah'] = DB::select('select * from k_kepemilikanrumah');
+		$data['customer'] = Model_Customer::datacustomer();
+		$data['penghasilan'] = Model_Tafsir::datapenghasilan();
+		$data['kondisiusaha'] = Model_Tafsir::datakondisiusaha();
+		$data['kemampuanmelunasihutang'] =Model_Tafsir::kemampuanhutang();
+		$data['aset'] = Model_Tafsir::dataaset();
+		$data['tanggunganhidup'] = Model_Tafsir::datahidup();
+		$data['kepemilikanrumah'] = Model_Tafsir::datakepemilikan();
 
 		return view('admin_tafsir.tafsir',compact('data'));
 

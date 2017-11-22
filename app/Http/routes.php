@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 //LGOUT
-Route::auth();
+Route::get('/logout','LoginController@logout');
 
 //LOGIN sudah fix
 Route::post('/LoginGadai','LoginController@login');
@@ -25,35 +25,38 @@ Route::post('/register','LoginController@register');
 
 //ADMIN KETUA
 Route::get('/home_ketua','KetuaController@home');
+Route::get('/data_customer','KetuaController@customer');
+Route::get('/data_validasi','KetuaController@validasi');
+Route::get('/data_hutang','KetuaController@hutang');
 
 //USER
-Route::get('/homes', 'DaftarController@home'); //untuk sesion nama per user
-Route::get('/biodata','DaftarController@biodata'); //untuk menampilkan biodata
-Route::post('/update_biodata', 'DaftarController@update_biodata'); //untuk mengupdate biodata
-Route::get('/riwayat','DaftarController@riwayat'); //melihat berapa kali berhutang
-Route::get('/detail_riwayat/{id}','DaftarController@detail_riwayat'); //melihatdetail pembayaran
+Route::get('/homes', 'DaftarController@home');
+Route::get('/biodata','DaftarController@biodata');
+Route::post('/update_biodata', 'DaftarController@update_biodata');
+Route::get('/riwayat','DaftarController@riwayat');
+Route::get('/detail_riwayat/{id}','DaftarController@detail_riwayat');
 
 //ADMIN TAFSIR
-Route::get('/home_tafsir', 'TafsirController@home'); //grafik belum, masih polosan return view biasa
-Route::get('/tafsir', 'TafsirController@tafsir'); //menampilkan form tafsir dan memasukan data tafsir
-Route::post('/perhitungan', 'TafsirController@perhitungan'); //menghitung AHP
-Route::get('/survey_pinjam','PinjamController@survey'); //menampilkan data yg selesai ditafsir dan akan disurvey(validasi)
-Route::get('/validasi_pinjam/{id}', 'PinjamController@update'); //menampilkan form validasi dan di update nominal
-Route::post('/validasi','PinjamController@validasi'); //proses memvalidasi atau mendecline
-Route::get('/transaksi_pinjam','PinjamController@transaksi'); //menampilkan data pinjaman sebelum diproses
-Route::get('/proses_pinjam/{id}','PinjamController@proses'); //klik tombol proses trus memasukan proses transaksi, ada kalkulator
-Route::post('/hutang','PinjamController@hutang'); // masukan data dan perhitungan hutang ke database
-Route::get('/utang_pinjam','PinjamController@utang_pinjam'); //menampilkan data siapa yang hutang
-Route::get('/detail/{id}','PinjamController@detail'); //menampilkan detail rincian pembayaran
-Route::get('/pdf/{id}','PinjamController@getPDF'); //mencetak pdf
+Route::get('/home_tafsir', 'TafsirController@home');
+Route::get('/tafsir', 'TafsirController@tafsir');
+Route::post('/perhitungan', 'TafsirController@perhitungan');
+Route::get('/survey_pinjam','PinjamController@survey');
+Route::get('/validasi_pinjam/{id}', 'PinjamController@update');
+Route::post('/validasi','PinjamController@validasi');
+Route::get('/transaksi_pinjam','PinjamController@transaksi');
+Route::get('/proses_pinjam/{id}','PinjamController@proses');
+Route::post('/hutang','PinjamController@hutang');
+Route::get('/utang_pinjam','PinjamController@utang_pinjam');
+Route::get('/detail/{id}','PinjamController@detail');
+Route::get('/pdf/{id}','PinjamController@getPDF');
 Route::get('/vista','PinjamController@pdf');
 // Route::get('/kriteria_tafsir', 'TafsirController@kriteria');
 // Route::get('/subkriteria_tafsir', 'TafsirController@subkriteria');
 
 //ADMIN BAYAR
-Route::get('/home_bayar','BayarController@home'); //grafik belum
-Route::get('/pembayaran','BayarController@pembayaran'); //menampilkan data customer yang belum lunas
-Route::get('/transaksi/{id}', 'BayarController@transaksi'); //menampilkan form pembayaran cicilan
-Route::post('/pembayaran_transaksi','BayarController@pembayarantransaksi'); //menyimpan cicilan ke database lalu di redirect ke data customer belum lunas
-Route::get('/detail_pinjam','BayarController@detailpinjaman');//menampilkan data siapa yang hutang
-Route::get('/detailnya/{id}','BayarController@detailnya'); //menampilkan detail rincian pembayaran
+Route::get('/home_bayar','BayarController@home');
+Route::get('/pembayaran','BayarController@pembayaran');
+Route::get('/transaksi/{id}', 'BayarController@transaksi');
+Route::post('/pembayaran_transaksi','BayarController@pembayarantransaksi');
+Route::get('/detail_pinjam','BayarController@detailpinjaman');
+Route::get('/detailnya/{id}','BayarController@detailnya');

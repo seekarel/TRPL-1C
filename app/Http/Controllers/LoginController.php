@@ -17,19 +17,13 @@ use Carbon\Carbon;
 class LoginController extends Controller
 {
 
-	public function home(){
-		$coba=DB::select('select * from kriteria');
-		$kriteria = array("Uang","Nama","Kayak","Mobil","Hape","Keyboard");
-
-		return view('admin_tafsir.home',compact('coba','kriteria'));
-	}
-
 	public function login(Request $request){
 		$username = $_POST['username'];
 		$password = $_POST['password'];
-		$result = DB::select('select level, username, id from login where username = ? and password = ?',[$username,$password]);
+		$cek = Model_Login::cek($username,$password);
+		$result = Model_Login::result($username,$password);
 
-		if(!empty($result)){
+		if($cek == 1){
 			$level = $result[0]->level;
 			$session = array(
 				'username' => $result[0]->username,
@@ -52,15 +46,14 @@ class LoginController extends Controller
 			$request->session()->flash('fail_login','Username atau Password Salah');
 			return redirect ('/');
 		}
-		// echo "<pre>";
-		// print_r($level);
-		// die();
 	}
 
 	public function register(Request $request){
 		$level=1;
 		$data['username']=$_POST['username'];
 		$data['password']=$_POST['password'];
+		$username = $data['username'];
+		$password = $data['password'];
 		$data['nama']=$_POST['nama'];
 		$data['alamat']=$_POST['alamat'];
 		$data['tempatlahir']=$_POST['lahir'];
@@ -72,7 +65,7 @@ class LoginController extends Controller
 		$data['namaibu']=$_POST['namaIbu'];
 		$data['jk']=$_POST['kelamin'];
 
-		$data['cekusername']=DB::select('select count(id) as row from login where username=?',[$data['username']])[0]->row;
+		$data['cekusername']= Model_Login::cekUsername($username);
 		if ($data['cekusername']==0) {
 			$insertlogin = ([
 			'username' => $data['username'],
@@ -83,7 +76,7 @@ class LoginController extends Controller
 			$request->session()->flash('gagal','Username telah digunakan');
 			return redirect('/');
 		}
-		$data['ambilid'] = DB::select('select id from login where username=? and password=?',[$data['username'],$data['password']])[0]->id;
+		$data['ambilid'] = Model_Login::ambilid($username,$password);
 		$insertbiodata = ([
 			'nama' => $data['nama'],
 			'alamat' => $data['alamat'],
@@ -100,6 +93,10 @@ class LoginController extends Controller
 		$request->session()->flash('sukses','Berhasil mendaftar');
 		return redirect('/');
 		
+	}
+
+	public function logout(){
+		return redirect('/');
 	}
 
 }

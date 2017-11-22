@@ -59,7 +59,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                        
                 </div> 
-                <div class="modal-body login-page "><!-- login-page -->      
+                <div class="modal-body login-page "> 
                     <div class="sap_tabs">
                         <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
                             <ul class="resp-tabs-list">
@@ -70,6 +70,7 @@
                             <div class="resp-tabs-container">
                                 <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
                                     <div class="agileits-login">
+                                    <!-- login -->
                                         <form action="/LoginGadai" method="POST"> 
                                         <input type="text" class="email" name="username" placeholder="Username" required=""/>
                                         <input type="password" class="password" name="password" placeholder="Uassword" required=""/>
@@ -90,6 +91,7 @@
                                 <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
                                     <div class="login-top sign-top">
                                         <div class="agileits-login">
+                                        <!-- register -->
                                             <form action="/register" method="post">
                                             <input type="text" name="username" placeholder="Username" required=""/>
                                             <input type="password" class="password" name="password" placeholder="Password" required=""/>

@@ -53,7 +53,7 @@ clearInterval(interval);}
 					<li><a href="/home_bayar"><i class="fa fa-fw fa-home"></i><span>Home</span></a></li>
 					<li><a href="/pembayaran"><i class="fa fa-fw fa-pencil"></i><span>Pembayaran</span></a></li>
 					<li><a href="/detail_pinjam"><i class="fa fa-fw fa-list-alt"></i><span>Data Peminjam</span></a></li>
-					<li><a href="{{ url('/logout')}}"><i class="fa fa-fw fa-power-off"></i><span>Logout</span></a></li>
+					<li><a href="/logout"><i class="fa fa-fw fa-power-off"></i><span>Logout</span></a></li>
 				</ul>
 				<div class="sidebar-footer">
 					<hr style="border-color: #DDD">
@@ -77,6 +77,9 @@ clearInterval(interval);}
 <script type="text/javascript">
 	$(document).ready(function() {
     $('#pembayaran').DataTable({
+    	 "lengthMenu": [[7, 25, 50, -1], [7, 25, 50, "All"]]
+    });
+    $('#detail').DataTable({
     	 "lengthMenu": [[7, 25, 50, -1], [7, 25, 50, "All"]]
     });
 

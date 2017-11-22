@@ -27,7 +27,7 @@
 					<li><a href="/homes"><i class="fa fa-fw fa-home"></i><span>Home</span></a></li>
 					<li><a href="/biodata"><i class="fa fa-fw fa-pencil"></i><span>Biodata</span></a></li>
 					<li><a href="/riwayat"><i class="fa fa-fw fa-list-alt"></i><span>Riwayat</span></a></li>
-					<li><a href="{{ url('/logout')}}"><i class="fa fa-fw fa-power-off"></i><span>Logout</span></a></li>
+					<li><a href="/logout}"><i class="fa fa-fw fa-power-off"></i><span>Logout</span></a></li>
 				</ul>
 				<div class="sidebar-footer">
 					<hr style="border-color: #DDD">

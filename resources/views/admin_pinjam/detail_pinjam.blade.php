@@ -49,8 +49,8 @@
 										</tr> 
 									</table>
 									<div class="col-md-12" align="right">
-									<a href="/utang_pinjam"><button type="submit" class="btn btn-warning"><b>Kembali</b></button></a>
-									<a href="/pdf/{{$data['detail'][0]->id_pinjaman}}"><button type="submit" class="btn btn-warning"><b>cetak</b></button></a>
+									<a href="/pdf/{{$data['detail'][0]->id_pinjaman}}"><button type="submit" class="btn btn-success"><b>Cetak</b></button></a>
+									<a href="/utang_pinjam"><button type="submit" class="btn btn-default"><b>Kembali</b></button></a>
 									</div>
 								</div>
 							</div>

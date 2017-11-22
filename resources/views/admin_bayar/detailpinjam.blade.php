@@ -14,7 +14,7 @@
 									<h3 class="panel-title">Data Peminjam</h3>
 								</div>
 								<div class="panel-body table-responsive table-full">
-									<table id="hutang" class=" display table table-stripped table-bordered">
+									<table class=" display table table-stripped table-bordered" id="detail">
 									<thead>
 										<tr>
 											<td class="text-center text-nowrap">No</td>
@@ -28,27 +28,24 @@
 										</tr> 
 									</thead>
 									<tbody>
-										<?php $no = 1 ?>
-										@foreach($data['hutang'] as $value)
+										@foreach($data['hutang'] as $key => $value)
 										<tr>
-											<td class="text-center text-nowrap">{{$no}}</td>
+											<td class="text-center text-nowrap">{{($key+1)}}</td>
 											<td class="text-center text-nowrap">{{$value->id_pinjaman}}</td>
 											<td class="text-center text-nowrap">{{$value->nama}}</td>
 											<td class="text-center text-nowrap">IDR. {{round($value->jumlah_pinjaman)}}</td>
 											<td class="text-center text-nowrap">IDR. {{round($value->angsuran_pokok)}}</td>
 											<td class="text-center text-nowrap">IDR. {{round($value->angsuran_bunga)}}</td>
 											<td class="text-center text-nowrap">
-											<?php
-											if ($value->sisa_pinjaman==0) {
-												echo "Lunas";
-											}else{
-												echo "Belum";
-											}
-											?>
+											
+											@if($value->sisa_pinjaman==0) 
+												<label class="label label-success">Lunas</label>
+											@else
+												<label class="label label-default">Belum</label>
+											@endif
 											</td>
 											<td class="text-center text-nowrap"><a href="detailnya/{{$value->id_pinjaman}}"><button type="submit" class="btn btn-success">View</button></a></td>
 										</tr> 
-										<?php $no++ ?>
 										@endforeach
 									</tbody>
 									</table>

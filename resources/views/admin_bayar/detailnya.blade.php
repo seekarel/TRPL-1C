@@ -15,8 +15,8 @@
 									<span class="text-black"><b>Id Hutang :  {{$data['detail'][0]->id_pinjaman}} - {{$data['detail'][0]->nama}} </b></span>
 								</div>
 								<div class="panel-body table-responsive table-full">
-									<table class=" display table table-responsive table-hover">
-									
+									<table class=" display table table-responsive table-hover" id="detailnya">
+									<thead>
 										<tr>
 											<td class="text-center text-nowrap">Bulan</td>
 											<td class="text-center text-nowrap">Angsuran Bunga</td>
@@ -31,6 +31,8 @@
 											<td class="text-center text-nowrap">0</td>
 											<td class="text-center text-nowrap">{{$data['jumlah_pinjaman']}}</td>
 										</tr>
+									</thead>
+									<tbody>
 									@foreach($data['detail'] as $value)										
 										<tr>
 											<td class="text-center text-nowrap">{{$value->angsuran_ke}}</td>
@@ -46,7 +48,8 @@
 											<td class="text-center text-nowrap"><b>{{round($data['total'][0]->total_pokok)}}</b></td>
 											<td class="text-center text-nowrap"><b>{{$data['total'][0]->total}}</b></td>
 											<td class="text-center text-nowrap"><b></b></td>
-										</tr> 
+										</tr>
+									</tbody> 
 									</table>
 									<div class="col-md-12" align="right">
 									<a href="/detail_pinjam"><button type="submit" class="btn btn-warning"><b>Kembali</b></button></a>

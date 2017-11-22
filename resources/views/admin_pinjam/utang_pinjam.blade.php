@@ -38,15 +38,15 @@
 											<td class="text-center text-nowrap">IDR. {{round($value->angsuran_pokok)}}</td>
 											<td class="text-center text-nowrap">IDR. {{round($value->angsuran_bunga)}}</td>
 											<td class="text-center text-nowrap">
-											<?php
-											if ($value->sisa_pinjaman==0) {
-												echo "Lunas";
-											}else{
-												echo "Belum";
-											}
-											?>
+											
+											@if ($value->sisa_pinjaman==0)
+												<label class="label label-success">Lunas</label>
+											@else
+												<label class="label label-default">Belum</label>
+											@endif
+											
 											</td>
-											<td class="text-center text-nowrap"><a href="detail/{{$value->id_pinjaman}}"><button type="submit" class="btn btn-success">View</button></a></td>
+											<td class="text-center text-nowrap"><a href="detail/{{$value->id_pinjaman}}"><button type="submit" class="btn btn-primary">View</button></a></td>
 										</tr> 
 										<?php $no++ ?>
 										@endforeach

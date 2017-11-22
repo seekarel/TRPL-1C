@@ -63,9 +63,9 @@
 										<td class="text-center text-nowrap">IDR. {{round($value->angsuran_bunga)}}</td>
 										<td class="text-center text-nowrap">
 											@if ($value->sisa_pinjaman == 0)
-											Lunas
+											<label class="label label-success">Lunas</label>
 											@else
-											Belum
+											<label class="label label-default">Belum</label>
 											@endif
 
 										</td>

@@ -9,6 +9,7 @@ use App\Model_Customer;
 use App\Model_KriteriaAHP;
 use App\Model_Tafsir;
 use App\Model_Hutang;
+use App\Model_Login;
 use PDF;
 
 
@@ -20,12 +21,11 @@ class PinjamController extends Controller
 {
 	
 	public function survey(){
-		$data['tafsir'] = DB::select('select * from customer c join tafsir t on c.id_customer = t.id_customer where status = ?',[0]);
+		$data['tafsir'] = Model_Tafsir::tafsir();
 		return view('admin_pinjam.survey',compact('data'));
 	}
 	public function update($id){
-		$data['tafsir'] = DB::select('select * from customer c join tafsir t on c.id_customer = t.id_customer where id_tafsir = ?',[$id]);
-
+		$data['tafsir'] = Model_Tafsir::validasitafsir($id);
 		return view('admin_pinjam.validasi',compact('data'));
 	}
 	public function validasi(Request $request){
@@ -34,19 +34,13 @@ class PinjamController extends Controller
 			$id_tafsir = $_POST['id_tafsir'];
 			$maks_nilai = $_POST['maks_nilai'];
 			$status = 1;
-
-			DB::table('tafsir')
-			->where('id_tafsir', $id_tafsir)
-			->update(['maks_nilai' => $maks_nilai, 
-				'status' => $status]);
+			Model_Tafsir::terima($id_tafsir,$maks_nilai,$status);
 			$request->session()->flash('terima','Survey Telah Disetujui');
 			return redirect ('/transaksi_pinjam');
 
 		}else{
 			$id_tafsir = $_POST['id_tafsir'];
-			DB::table('tafsir')
-			->where('id_tafsir', $id_tafsir)
-			->update(['status' => 9]);
+			Model_Tafsir::tolak($id_tafsir);
 			$request->session()->flash('tolak','Survey Ditolak');
 			return redirect ('/survey_pinjam');
 		}
@@ -54,18 +48,17 @@ class PinjamController extends Controller
 	}
 
 	public function transaksi(){
-		$data['tafsir'] = DB::select('select * from customer c join tafsir t on c.id_customer = t.id_customer where status = ?',[1]);
+		$data['tafsir'] = Model_Tafsir::transaksi();
 		return view('admin_pinjam.pinjam',compact('data'));
 	}
 
 	public function proses($id){
-		$data['user'] = DB::select('select * from customer c join tafsir t on c.id_customer = t.id_customer where id_tafsir = ?',[$id]);
-
-
+		$data['user'] = Model_Tafsir::proses($id);
 		return view('admin_pinjam.formpinjam',compact('data'));
 	}
 	public function hutang(Request $request){
 		$data['id_tafsir'] =$_POST['id_tafsir'];
+		$idtafsir = $data['id_tafsir'];
 		$data['id_customer'] = $_POST['id_customer'];
 		$data['nama'] = $_POST['nama'];
 		$data['jumlah_pinjaman'] = $_POST['jumlah_pinjaman'];
@@ -89,46 +82,41 @@ class PinjamController extends Controller
 			'sisa_cicilan' => $data['lama_pinjaman']
 		]);
 		Model_Hutang::create($insert);
-
-		DB::table('tafsir')
-		->where('id_tafsir', $data['id_tafsir'])
-		->update(['status' => 2]);
+		Model_Hutang::ubah($idtafsir);
+		
 		$request->session()->flash('sukses','Transaksi Berhasil');
 		return redirect('/utang_pinjam');
 
 	}
 	public function utang_pinjam(){
-		$data['hutang'] = DB::select('select * from hutang h join customer c on h.id_customer = c.id_customer');
-		// dd($data);
 
+		$data['hutang'] = Model_Hutang::hutang();
 		return view('admin_pinjam.utang_pinjam',compact('data'));
 	}
 
 	public function detail(Request $request, $id){
-		$data['count'] = DB::select('select count(t.id_transaksi) as hitung from transaksi t join hutang h on t.id_pinjaman = h.id_pinjaman join customer c on c.id_customer = h.id_customer where t.id_pinjaman = ?',[$id])[0]->hitung;
-		// dd($data);
+		$data['count'] = Model_Hutang::cekTransaksi($id);
 		if ($data['count']==0) {
 			$request->session()->flash('gagal','Transaksi Pembayaran Kosong');
 			return redirect('/utang_pinjam');
 
 		}else{
-			$data['detail'] = DB::select('select t.angsuran_total, t.id_transaksi, t.id_pinjaman, t.angsuran_bunga, t.angsuran_pokok, t.sisa_pinjaman, t.angsuran_ke, c.nama, h.jumlah_pinjaman from transaksi t join hutang h on t.id_pinjaman = h.id_pinjaman join customer c on c.id_customer = h.id_customer where t.id_pinjaman = ?',[$id]);
-			$data['total'] = DB::select('select SUM(t.angsuran_bunga) as total_bunga, SUM(t.angsuran_pokok) as total_pokok, SUM(t.angsuran_total) as total from transaksi t join hutang h on t.id_pinjaman = h.id_pinjaman where t.id_pinjaman = ?',[$id]);
+			$data['detail'] = Model_Hutang::detail($id);
+			$data['total'] = Model_Hutang::total($id);
 			$data['jumlah_pinjaman'] = $data['detail'][0]->jumlah_pinjaman;
 			return view('admin_pinjam.detail_pinjam',compact('data'));
 		}
-	
+
 
 	}
 	public function getPdf($id){
 		
-    $data['detail'] = DB::select('select t.angsuran_total, t.id_transaksi, t.id_pinjaman, t.angsuran_bunga, t.angsuran_pokok, t.sisa_pinjaman, t.angsuran_ke, c.nama, h.jumlah_pinjaman from transaksi t join hutang h on t.id_pinjaman = h.id_pinjaman join customer c on c.id_customer = h.id_customer where t.id_pinjaman = ?',[$id]);
-			$data['total'] = DB::select('select SUM(t.angsuran_bunga) as total_bunga, SUM(t.angsuran_pokok) as total_pokok, SUM(t.angsuran_total) as total from transaksi t join hutang h on t.id_pinjaman = h.id_pinjaman where t.id_pinjaman = ?',[$id]);
-			$data['jumlah_pinjaman'] = $data['detail'][0]->jumlah_pinjaman;
- 	
-    $pdf = PDF::loadView('vista',compact('data'));
- 
-    return $pdf->download('coba.pdf');
-}
+		$data['detail'] = Model_Hutang::detail($id);
+		$data['total'] = Model_Hutang::total($id);
+		$data['jumlah_pinjaman'] = $data['detail'][0]->jumlah_pinjaman;
+		$pdf = PDF::loadView('vista',compact('data'));
+
+		return $pdf->download('coba.pdf');
+	}
 
 }

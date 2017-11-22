@@ -25,7 +25,7 @@
     <!-- services --> 
     <div class="services jarallax">
         <div class="container">   
-            <h3 class="agileits-title w3title1">Keuntungan Memakai Kresida</h3>
+            <h3 class="agileits-title w3title1">Keuntungan Memakai Kresida </h3>
             <div class="services-w3ls-row">
                 <div class="col-md-3 col-sm-3 col-xs-6 services-grid agileits-w3layouts">
                     <span class="glyphicon glyphicon-home effect-1" aria-hidden="true"></span>
